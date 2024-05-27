@@ -1,4 +1,4 @@
-package com.example.aula2.ui.theme.game
+package com.example.unscramble.ui.theme.game
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +60,7 @@ class GameViewModel : ViewModel() {
         getRandomWord()
     }
 
-    // não utilizar a mesma palavra
+    // dont use same word
     private fun getRandomWord() {
         val currentRightWord = allWords.random()
         val listWords = currentRightWord.toCharArray()
