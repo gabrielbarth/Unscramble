@@ -1,4 +1,4 @@
-package com.example.aula2.ui.theme.game
+package com.example.unscramble.ui.theme.game
 
 data class GameUiState(
     val score: Int = 0,
