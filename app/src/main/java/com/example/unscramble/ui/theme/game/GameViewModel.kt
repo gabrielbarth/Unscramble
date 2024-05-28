@@ -31,6 +31,21 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    fun finishGame() {
+        clearField()
+        updateErrorState(false)
+        _uiState.update {
+            it.copy(isGameFinished = true)
+        }
+    }
+
+    fun startGame() {
+        _uiState.update {
+            it.copy(isGameFinished = false, score = 0, currentWordCount = 1)
+        }
+        getRandomWord()
+    }
+
     private fun updateErrorState(isWrong: Boolean) {
         _uiState.update {
             it.copy(isGuessedWordWrong = isWrong)
@@ -47,20 +62,28 @@ class GameViewModel : ViewModel() {
         _uiState.update {
             it.copy(score = it.score.inc())
         }
+
+        if (_uiState.value.currentWordCount >= _uiState.value.stepsLimit + 1) {
+            finishGame()
+        }
     }
 
     fun skip() {
         clearField()
         updateErrorState(false)
-        _uiState.update {
-            it.copy(
-                currentWordCount = it.currentWordCount.inc()
-            )
+
+        if (_uiState.value.currentWordCount >= _uiState.value.stepsLimit) {
+            finishGame()
+        } else {
+            _uiState.update {
+                it.copy(
+                    currentWordCount = it.currentWordCount.inc()
+                )
+            }
+            getRandomWord()
         }
-        getRandomWord()
     }
 
-    // dont use same word
     private fun getRandomWord() {
         val currentRightWord = allWords.random()
         val listWords = currentRightWord.toCharArray()
